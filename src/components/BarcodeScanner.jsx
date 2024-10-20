@@ -11,8 +11,8 @@ const BarcodeScannerComponent = () => {
   // Configuración de constraints para usar la cámara trasera
   const videoConstraints = {
     facingMode: { exact: 'environment' }, // Usa 'environment' para la cámara trasera
-    width: 400,
-    height: 300,
+    width: 1280, // Mayor resolución
+    height: 720, // Mayor resolución
   };
 
   const capture = useCallback(async () => {
@@ -31,7 +31,7 @@ const BarcodeScannerComponent = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       capture();
-    }, 3000); // Captura cada 3 segundos
+    }, 2000); // Captura cada 2 segundos
     return () => clearInterval(timer);
   }, [capture]);
 
