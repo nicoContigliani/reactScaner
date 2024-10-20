@@ -15,22 +15,16 @@ const BarcodeScannerComponent = () => {
     height: 300,
   };
 
-  const capture = useCallback(() => {
+  const capture = useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     if (imageSrc) {
-      const image = document.createElement('img');
-      image.src = imageSrc;
-
-      // Espera a que la imagen se cargue antes de procesarla
-      image.onload = async () => {
-        try {
-          const result = await codeReader.current.decode(image);
-          setBarcodeData(result.getText());
-        } catch (err) {
-          console.error('Error al detectar código:', err);
-          setBarcodeData('Código no detectado');
-        }
-      };
+      try {
+        const result = await codeReader.current.decodeFromImageUrl(imageSrc);
+        setBarcodeData(result.getText());
+      } catch (err) {
+        console.error('Error al detectar código:', err);
+        setBarcodeData('Código no detectado');
+      }
     }
   }, [webcamRef]);
 
